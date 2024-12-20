@@ -28,21 +28,21 @@ async function searchItem() {
             oldDescription.textContent = result["Old Description"];
             location.textContent = result["Location"];
 
-            // Define image base path and attempt to load images dynamically
+            // Load Images Dynamically
             const imagePaths = [];
             let i = 1;
             while (true) {
                 const imgPath = `./images/${itemCode}/image${i}.jpg`;
                 const imageExists = await checkImageExists(imgPath);
                 if (imageExists) {
-                    imagePaths.push(imgPath); // Add only if image exists
+                    imagePaths.push(imgPath); // Add the image if it exists
                 } else {
-                    break; // Stop once an image doesn't exist
+                    break; // Stop loading images when one does not exist
                 }
                 i++;
             }
 
-            images = imagePaths; // Assign all found images
+            images = imagePaths; // Only valid images are stored
 
             if (images.length > 0) {
                 updateImage();
