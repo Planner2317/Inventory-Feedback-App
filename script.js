@@ -16,29 +16,37 @@ async function searchItem() {
     currentImageIndex = 0;
 
     // Load Excel File
-    const response = await fetch("./data/items.xlsx");
-    const data = await response.arrayBuffer();
-    const workbook = XLSX.read(data, { type: "array" });
-    const sheet = workbook.Sheets[workbook.SheetNames[0]];
-    const excelData = XLSX.utils.sheet_to_json(sheet);
+    try {
+        const response = await fetch("./data/items.xlsx");
+        if (!response.ok) throw new Error("Network response was not ok");
+        const data = await response.arrayBuffer();
+        const workbook = XLSX.read(data, { type: "array" });
+        const sheet = workbook.Sheets[workbook.SheetNames[0]];
+        const excelData = XLSX.utils.sheet_to_json(sheet);
 
-    // Find Item Data
-    const result = excelData.find(row => row["Item Code"] === itemCode);
+        // Find Item Data
+        const result = excelData.find(row => row["Item Code"] === itemCode);
 
-    if (result) {
-        oldDescription.textContent = result["Old Description"];
-        location.textContent = result["Location"];
+        if (result) {
+            oldDescription.textContent = result["Old Description"];
+            location.textContent = result["Location"];
 
-        // Load Images
-        const imgPath = `./images/${itemCode}/`;
-        for (let i = 1; i <= 5; i++) {
-            images.push(`${imgPath}image${i}.jpg`);
+            // Load Images
+            for (let i = 1; i <= 5; i++) {
+                const imgPath = `./images/${itemCode}/image${i}.jpg`;
+                const img = new Image();
+                img.src = imgPath;
+                img.onload = () => images.push(imgPath);
+            }
+
+            updateImage();
+            itemDetails.classList.remove("hidden");
+        } else {
+            alert("Item not found!");
         }
-
-        updateImage();
-        itemDetails.classList.remove("hidden");
-    } else {
-        alert("Item not found!");
+    } catch (error) {
+        console.error("Error loading Excel file:", error);
+        alert("Failed to load item data. Please try again later.");
     }
 }
 
@@ -62,3 +70,9 @@ function nextImage() {
         updateImage();
     }
 }
+
+document.getElementById("feedbackForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+    // Handle form data here
+    alert("Form submitted!");
+});
