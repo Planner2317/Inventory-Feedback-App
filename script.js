@@ -15,17 +15,14 @@ async function searchItem() {
     images = [];
     currentImageIndex = 0;
 
-    // Load Excel File
+    // Load JSON File
     try {
-        const response = await fetch("./data/items.xlsx");
+        const response = await fetch("./data/items.json");
         if (!response.ok) throw new Error("Network response was not ok");
-        const data = await response.arrayBuffer();
-        const workbook = XLSX.read(data, { type: "array" });
-        const sheet = workbook.Sheets[workbook.SheetNames[0]];
-        const excelData = XLSX.utils.sheet_to_json(sheet);
+        const jsonData = await response.json();
 
         // Find Item Data
-        const result = excelData.find(row => row["Item Code"] === itemCode);
+        const result = jsonData.find(row => row["Item Code"] === itemCode);
 
         if (result) {
             oldDescription.textContent = result["Old Description"];
@@ -45,7 +42,7 @@ async function searchItem() {
             alert("Item not found!");
         }
     } catch (error) {
-        console.error("Error loading Excel file:", error);
+        console.error("Error loading JSON file:", error);
         alert("Failed to load item data. Please try again later.");
     }
 }
