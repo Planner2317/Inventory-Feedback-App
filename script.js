@@ -34,6 +34,7 @@ async function searchItem() {
                 const img = new Image();
                 img.src = imgPath;
                 img.onload = () => images.push(imgPath);
+                img.onerror = () => console.log(`Image ${imgPath} not found.`);
             }
 
             updateImage();
@@ -51,6 +52,8 @@ function updateImage() {
     const itemImage = document.getElementById("itemImage");
     if (images.length > 0) {
         itemImage.src = images[currentImageIndex];
+    } else {
+        itemImage.src = ''; // Clear the image if no images are found
     }
 }
 
