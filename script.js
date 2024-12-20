@@ -28,19 +28,21 @@ async function searchItem() {
             oldDescription.textContent = result["Old Description"];
             location.textContent = result["Location"];
 
-            // Load Image Paths (Only up to 5 images)
+            // Define image base path and attempt to load images dynamically
             const imagePaths = [];
-            for (let i = 1; i <= 5; i++) {
+            let i = 1;
+            while (true) {
                 const imgPath = `./images/${itemCode}/image${i}.jpg`;
-                imagePaths.push(imgPath);
+                const imageExists = await checkImageExists(imgPath);
+                if (imageExists) {
+                    imagePaths.push(imgPath); // Add only if image exists
+                } else {
+                    break; // Stop once an image doesn't exist
+                }
+                i++;
             }
 
-            // Filter and load only existing images
-            const imagePromises = imagePaths.map(imgPath => checkImageExists(imgPath));
-            const imageResults = await Promise.all(imagePromises);
-
-            // Only keep existing images
-            images = imageResults.filter(imgPath => imgPath !== null);
+            images = imagePaths; // Assign all found images
 
             if (images.length > 0) {
                 updateImage();
@@ -61,11 +63,8 @@ function checkImageExists(imgPath) {
     return new Promise((resolve) => {
         const img = new Image();
         img.src = imgPath;
-        img.onload = () => resolve(imgPath);  // Image exists
-        img.onerror = () => {
-            console.error(`Image not found: ${imgPath}`);  // Log the missing image path
-            resolve(null); // Return null for missing image
-        };
+        img.onload = () => resolve(true);  // Image exists
+        img.onerror = () => resolve(false);  // Image doesn't exist
     });
 }
 
