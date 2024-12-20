@@ -29,12 +29,14 @@ async function searchItem() {
             location.textContent = result["Location"];
 
             // Load Images
-            const imagePromises = [];
+            const imagePaths = [];
             for (let i = 1; i <= 5; i++) {
                 const imgPath = `./images/${itemCode}/image${i}.jpg`;
-                imagePromises.push(checkImageExists(imgPath));
+                imagePaths.push(imgPath);
             }
 
+            // Filter only the existing images
+            const imagePromises = imagePaths.map(imgPath => checkImageExists(imgPath));
             const imageResults = await Promise.all(imagePromises);
             images = imageResults.filter(imgPath => imgPath !== null);
 
@@ -58,7 +60,10 @@ function checkImageExists(imgPath) {
         const img = new Image();
         img.src = imgPath;
         img.onload = () => resolve(imgPath);
-        img.onerror = () => resolve(null);
+        img.onerror = () => {
+            console.error(`Image not found: ${imgPath}`);
+            resolve(null); // Image not found, return null
+        };
     });
 }
 
