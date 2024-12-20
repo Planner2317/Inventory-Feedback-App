@@ -1,0 +1,57 @@
+/* General Styles */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    padding: 20px;
+    background: #f4f4f9;
+}
+
+h1, h2 {
+    color: darkblue;
+}
+
+label, input, select, button {
+    display: block;
+    margin: 10px 0;
+}
+
+input, select {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background: darkblue;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #00509e;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Image Gallery */
+.image-gallery {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.image-gallery img {
+    width: 400px;
+    height: auto;
+    margin: 0 10px;
+}
