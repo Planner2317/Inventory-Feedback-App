@@ -1,22 +1,6 @@
-document.addEventListener('DOMContentLoaded', function() {
-    // Ensure "Unknown" is selected as default for all dropdowns
-    const dropdowns = document.querySelectorAll('select');
-    
-    dropdowns.forEach(dropdown => {
-        // Find the "Unknown" option in each dropdown and set it as selected
-        const unknownOption = dropdown.querySelector('option[value="unknown"]');
-        if (unknownOption) {
-            unknownOption.selected = true; // Ensure "Unknown" is selected by default
-        }
-    });
+let currentImageIndex = 0;
+let images = [];
 
-    // Event listener for searching an item by code
-    document.getElementById('searchBtn').addEventListener('click', async function() {
-        await searchItem();
-    });
-});
-
-// Function to search item by code and fetch details
 async function searchItem() {
     const itemCode = document.getElementById("itemCode").value.trim();
     const itemDetails = document.getElementById("itemDetails");
@@ -45,21 +29,15 @@ async function searchItem() {
             location.textContent = result["Location"];
 
             // Load Images
-            const imagePromises = [];
             for (let i = 1; i <= 5; i++) {
                 const imgPath = `./images/${itemCode}/image${i}.jpg`;
-                imagePromises.push(checkImageExists(imgPath));
+                const img = new Image();
+                img.src = imgPath;
+                img.onload = () => images.push(imgPath);
             }
 
-            const imageResults = await Promise.all(imagePromises);
-            images = imageResults.filter(imgPath => imgPath !== null);
-
-            if (images.length > 0) {
-                updateImage();
-                itemDetails.classList.remove("hidden");
-            } else {
-                alert("No images found for this item.");
-            }
+            updateImage();
+            itemDetails.classList.remove("hidden");
         } else {
             alert("Item not found!");
         }
@@ -69,38 +47,29 @@ async function searchItem() {
     }
 }
 
-// Function to check if an image exists
-function checkImageExists(imgPath) {
-    return new Promise((resolve) => {
-        const img = new Image();
-        img.src = imgPath;
-        img.onload = () => resolve(imgPath);
-        img.onerror = () => resolve(null); // Return null if image does not exist
-    });
-}
-
-// Function to update the image displayed
 function updateImage() {
     const itemImage = document.getElementById("itemImage");
     if (images.length > 0) {
         itemImage.src = images[currentImageIndex];
-    } else {
-        itemImage.src = ''; // Clear the image if no images are found
     }
 }
 
-// Function to display previous image
 function prevImage() {
-    if (images.length > 0) {
-        currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+    if (currentImageIndex > 0) {
+        currentImageIndex--;
         updateImage();
     }
 }
 
-// Function to display next image
 function nextImage() {
-    if (images.length > 0) {
-        currentImageIndex = (currentImageIndex + 1) % images.length;
+    if (currentImageIndex < images.length - 1) {
+        currentImageIndex++;
         updateImage();
     }
 }
+
+document.getElementById("feedbackForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+    // Handle form data here
+    alert("Form submitted!");
+});
