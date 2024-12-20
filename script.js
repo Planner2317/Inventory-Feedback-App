@@ -29,20 +29,21 @@ async function searchItem() {
             location.textContent = result["Location"];
 
             // Load Images
+            const imagePromises = [];
             for (let i = 1; i <= 5; i++) {
                 const imgPath = `./images/${itemCode}/image${i}.jpg`;
-                const img = new Image();
-                img.src = imgPath;
-                img.onload = () => {
-                    images.push(imgPath);
-                    if (images.length === 1) {
-                        updateImage(); // Update image immediately if it's the first one
-                    }
-                };
-                img.onerror = () => console.log(`Image ${imgPath} not found.`);
+                imagePromises.push(checkImageExists(imgPath));
             }
 
-            itemDetails.classList.remove("hidden");
+            const imageResults = await Promise.all(imagePromises);
+            images = imageResults.filter(imgPath => imgPath !== null);
+
+            if (images.length > 0) {
+                updateImage();
+                itemDetails.classList.remove("hidden");
+            } else {
+                alert("No images found for this item.");
+            }
         } else {
             alert("Item not found!");
         }
@@ -50,6 +51,15 @@ async function searchItem() {
         console.error("Error loading JSON file:", error);
         alert("Failed to load item data. Please try again later.");
     }
+}
+
+function checkImageExists(imgPath) {
+    return new Promise((resolve) => {
+        const img = new Image();
+        img.src = imgPath;
+        img.onload = () => resolve(imgPath);
+        img.onerror = () => resolve(null);
+    });
 }
 
 function updateImage() {
