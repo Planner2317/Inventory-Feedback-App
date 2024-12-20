@@ -1,5 +1,5 @@
-let currentImageIndex = 0;
 let images = [];
+let currentImageIndex = 0;
 
 async function searchItem() {
     const itemCode = document.getElementById("itemCode").value.trim();
@@ -28,21 +28,15 @@ async function searchItem() {
             oldDescription.textContent = result["Old Description"];
             location.textContent = result["Location"];
 
-            // Load Images Dynamically
-            const imagePaths = [];
-            let i = 1;
-            while (true) {
+            // Load Images
+            const imagePromises = [];
+            for (let i = 1; i <= 5; i++) {
                 const imgPath = `./images/${itemCode}/image${i}.jpg`;
-                const imageExists = await checkImageExists(imgPath);
-                if (imageExists) {
-                    imagePaths.push(imgPath); // Add the image if it exists
-                } else {
-                    break; // Stop loading images when one does not exist
-                }
-                i++;
+                imagePromises.push(checkImageExists(imgPath));
             }
 
-            images = imagePaths; // Only valid images are stored
+            const imageResults = await Promise.all(imagePromises);
+            images = imageResults.filter(imgPath => imgPath !== null);
 
             if (images.length > 0) {
                 updateImage();
@@ -63,8 +57,8 @@ function checkImageExists(imgPath) {
     return new Promise((resolve) => {
         const img = new Image();
         img.src = imgPath;
-        img.onload = () => resolve(true);  // Image exists
-        img.onerror = () => resolve(false);  // Image doesn't exist
+        img.onload = () => resolve(imgPath);
+        img.onerror = () => resolve(null); // Return null if image does not exist
     });
 }
 
@@ -78,21 +72,15 @@ function updateImage() {
 }
 
 function prevImage() {
-    if (currentImageIndex > 0) {
-        currentImageIndex--;
+    if (images.length > 0) {
+        currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
         updateImage();
     }
 }
 
 function nextImage() {
-    if (currentImageIndex < images.length - 1) {
-        currentImageIndex++;
+    if (images.length > 0) {
+        currentImageIndex = (currentImageIndex + 1) % images.length;
         updateImage();
     }
 }
-
-document.getElementById("feedbackForm").addEventListener("submit", function(event) {
-    event.preventDefault();
-    // Handle form data here
-    alert("Form submitted!");
-});
