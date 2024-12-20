@@ -14,12 +14,12 @@ h1, h2 {
     color: darkblue;
 }
 
-label, input, select, button {
+label, select {
     display: block;
     margin: 10px 0;
 }
 
-input, select {
+select {
     width: 100%;
     padding: 8px;
     font-size: 16px;
@@ -40,18 +40,4 @@ button:hover {
 
 .hidden {
     display: none;
-}
-
-/* Image Gallery */
-.image-gallery {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 20px;
-}
-
-.image-gallery img {
-    width: 400px;
-    height: auto;
-    margin: 0 10px;
 }

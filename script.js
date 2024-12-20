@@ -1,6 +1,22 @@
-let images = [];
-let currentImageIndex = 0;
+document.addEventListener('DOMContentLoaded', function() {
+    // Ensure "Unknown" is selected as default for all dropdowns
+    const dropdowns = document.querySelectorAll('select');
+    
+    dropdowns.forEach(dropdown => {
+        // Find the "Unknown" option in each dropdown and set it as selected
+        const unknownOption = dropdown.querySelector('option[value="unknown"]');
+        if (unknownOption) {
+            unknownOption.selected = true; // Ensure "Unknown" is selected by default
+        }
+    });
 
+    // Event listener for searching an item by code
+    document.getElementById('searchBtn').addEventListener('click', async function() {
+        await searchItem();
+    });
+});
+
+// Function to search item by code and fetch details
 async function searchItem() {
     const itemCode = document.getElementById("itemCode").value.trim();
     const itemDetails = document.getElementById("itemDetails");
@@ -53,6 +69,7 @@ async function searchItem() {
     }
 }
 
+// Function to check if an image exists
 function checkImageExists(imgPath) {
     return new Promise((resolve) => {
         const img = new Image();
@@ -62,6 +79,7 @@ function checkImageExists(imgPath) {
     });
 }
 
+// Function to update the image displayed
 function updateImage() {
     const itemImage = document.getElementById("itemImage");
     if (images.length > 0) {
@@ -71,6 +89,7 @@ function updateImage() {
     }
 }
 
+// Function to display previous image
 function prevImage() {
     if (images.length > 0) {
         currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
@@ -78,6 +97,7 @@ function prevImage() {
     }
 }
 
+// Function to display next image
 function nextImage() {
     if (images.length > 0) {
         currentImageIndex = (currentImageIndex + 1) % images.length;

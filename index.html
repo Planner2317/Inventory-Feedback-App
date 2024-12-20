@@ -3,15 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Item Classification</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Inventory Feedback App</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Item Classification</h1>
 
+    <h1>Inventory Feedback</h1>
+
+    <!-- Classification Dropdown -->
     <label for="classification">Classification:</label>
     <select id="classification">
-        <option value="unknown" selected>Unknown</option> <!-- Default value set to "Unknown" -->
+        <option value="unknown" selected>Unknown</option>
         <option value="spare parts">Spare Parts</option>
         <option value="consumables">Consumables</option>
         <option value="tools">Tools</option>
@@ -19,25 +21,28 @@
         <option value="other">Other</option>
     </select>
 
+    <!-- Situation Dropdown -->
     <label for="situation">Situation:</label>
     <select id="situation">
-        <option value="unknown" selected>Unknown</option> <!-- Default value set to "Unknown" -->
+        <option value="unknown" selected>Unknown</option>
         <option value="insurance">Insurance</option>
         <option value="obsolete">Obsolete</option>
         <option value="expired">Expired</option>
     </select>
 
+    <!-- Condition Dropdown -->
     <label for="condition">Condition:</label>
     <select id="condition">
-        <option value="unknown" selected>Unknown</option> <!-- Default value set to "Unknown" -->
+        <option value="unknown" selected>Unknown</option>
         <option value="new">New</option>
         <option value="used">Used</option>
         <option value="damage">Damage</option>
     </select>
 
+    <!-- Needing Plant Dropdown -->
     <label for="needingPlant">Needing Plant:</label>
     <select id="needingPlant">
-        <option value="unknown" selected>Unknown</option> <!-- Default value set to "Unknown" -->
+        <option value="unknown" selected>Unknown</option>
         <option value="SMP1">SMP1</option>
         <option value="SMP2">SMP2</option>
         <option value="DRP">DRP</option>
@@ -50,28 +55,15 @@
         <option value="LOGISTICS">LOGISTICS</option>
     </select>
 
+    <!-- Needing Department Dropdown -->
     <label for="needingDept">Needing Department:</label>
     <select id="needingDept">
-        <option value="unknown" selected>Unknown</option> <!-- Default value set to "Unknown" -->
+        <option value="unknown" selected>Unknown</option>
         <option value="mechanical">Mechanical</option>
         <option value="electrical">Electrical</option>
         <option value="operation">Operation</option>
         <option value="other">Other</option>
     </select>
-
-    <button id="searchButton">Search</button>
-
-    <div id="itemDetails" class="hidden">
-        <h2>Item Details</h2>
-        <p><strong>Old Description:</strong> <span id="oldDescription"></span></p>
-        <p><strong>Location:</strong> <span id="location"></span></p>
-
-        <div class="image-gallery">
-            <button onclick="prevImage()">Prev</button>
-            <img id="itemImage" src="" alt="Item Image">
-            <button onclick="nextImage()">Next</button>
-        </div>
-    </div>
 
     <script src="script.js"></script>
 </body>
