@@ -28,16 +28,18 @@ async function searchItem() {
             oldDescription.textContent = result["Old Description"];
             location.textContent = result["Location"];
 
-            // Load Images
+            // Load Image Paths (Only up to 5 images)
             const imagePaths = [];
             for (let i = 1; i <= 5; i++) {
                 const imgPath = `./images/${itemCode}/image${i}.jpg`;
                 imagePaths.push(imgPath);
             }
 
-            // Filter only the existing images
+            // Filter and load only existing images
             const imagePromises = imagePaths.map(imgPath => checkImageExists(imgPath));
             const imageResults = await Promise.all(imagePromises);
+
+            // Only keep existing images
             images = imageResults.filter(imgPath => imgPath !== null);
 
             if (images.length > 0) {
@@ -59,10 +61,10 @@ function checkImageExists(imgPath) {
     return new Promise((resolve) => {
         const img = new Image();
         img.src = imgPath;
-        img.onload = () => resolve(imgPath);
+        img.onload = () => resolve(imgPath);  // Image exists
         img.onerror = () => {
-            console.error(`Image not found: ${imgPath}`);
-            resolve(null); // Image not found, return null
+            console.error(`Image not found: ${imgPath}`);  // Log the missing image path
+            resolve(null); // Return null for missing image
         };
     });
 }
