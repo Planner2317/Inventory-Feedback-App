@@ -3,100 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inventory Feedback Application</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Inventory Feedback App</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <h1>Inventory Feedback Application</h1>
-    </header>
 
-    <main>
-        <section class="search-section">
-            <label for="itemCode">Search by Item Code:</label>
-            <input type="text" id="itemCode" placeholder="Enter Item Code">
-            <button onclick="searchItem()">Search</button>
-        </section>
+    <h1>Inventory Feedback</h1>
 
-        <section id="itemDetails" class="hidden">
-            <h2>Item Details</h2>
-            <p><strong>Old Description:</strong> <span id="oldDescription"></span></p>
-            <p><strong>Location in Stores:</strong> <span id="location"></span></p>
+    <!-- Classification Dropdown -->
+    <label for="classification">Classification:</label>
+    <select id="classification">
+        <option value="unknown" selected>Unknown</option>
+        <option value="spare parts">Spare Parts</option>
+        <option value="consumables">Consumables</option>
+        <option value="tools">Tools</option>
+        <option value="workshop raw materials">Workshop Raw Materials</option>
+        <option value="other">Other</option>
+    </select>
 
-            <div class="image-gallery">
-                <button onclick="prevImage()">&#10094; Previous</button>
-                <img id="itemImage" alt="Item Image">
-                <button onclick="nextImage()">Next &#10095;</button>
-            </div>
+    <!-- Situation Dropdown -->
+    <label for="situation">Situation:</label>
+    <select id="situation">
+        <option value="unknown" selected>Unknown</option>
+        <option value="insurance">Insurance</option>
+        <option value="obsolete">Obsolete</option>
+        <option value="expired">Expired</option>
+    </select>
 
-            <form id="feedbackForm">
-                <label for="correctDescription">Correct Description:</label>
-                <input type="text" id="correctDescription">
+    <!-- Condition Dropdown -->
+    <label for="condition">Condition:</label>
+    <select id="condition">
+        <option value="unknown" selected>Unknown</option>
+        <option value="new">New</option>
+        <option value="used">Used</option>
+        <option value="damage">Damage</option>
+    </select>
 
-                <label for="classification">Classification:</label>
-                <select id="classification">
-                    <option value="unknown">Unknown</option>
-                    <option value="spare parts">Spare Parts</option>
-                    <option value="consumables">Consumables</option>
-                    <option value="tools">Tools</option>
-                    <option value="workshop raw materials">Workshop Raw Materials</option>
-                    <option value="other">Other</option>
-                </select>
+    <!-- Needing Plant Dropdown -->
+    <label for="needingPlant">Needing Plant:</label>
+    <select id="needingPlant">
+        <option value="unknown" selected>Unknown</option>
+        <option value="SMP1">SMP1</option>
+        <option value="SMP2">SMP2</option>
+        <option value="DRP">DRP</option>
+        <option value="LIME">LIME</option>
+        <option value="OXYGEN">OXYGEN</option>
+        <option value="ADMIN">ADMIN</option>
+        <option value="RMP1-2">RMP1-2</option>
+        <option value="RMP3">RMP3</option>
+        <option value="CUT&BEND">CUT&BEND</option>
+        <option value="LOGISTICS">LOGISTICS</option>
+    </select>
 
-                <label for="situation">Situation:</label>
-                <select id="situation">
-                    <option value="unknown">Unknown</option>
-                    <option value="insurance">Insurance</option>
-                    <option value="obsolete">Obsolete</option>
-                    <option value="expired">Expired</option>
-                </select>
-
-                <label for="condition">Condition:</label>
-                <select id="condition">
-                    <option value="unknown">Unknown</option>
-                    <option value="new">New</option>
-                    <option value="used">Used</option>
-                    <option value="damage">Damage</option>
-                </select>
-
-                <label for="needingPlant">Needing Plant:</label>
-                <select id="needingPlant">
-                    <option value="unknown">Unknown</option>
-                    <option value="SMP1">SMP1</option>
-                    <option value="SMP2">SMP2</option>
-                    <option value="DRP">DRP</option>
-                    <option value="LIME">LIME</option>
-                    <option value="OXYGEN">OXYGEN</option>
-                    <option value="ADMIN">ADMIN</option>
-                    <option value="RMP1-2">RMP1-2</option>
-                    <option value="RMP3">RMP3</option>
-                    <option value="CUT&BEND">CUT&BEND</option>
-                    <option value="LOGISTICS">LOGISTICS</option>
-                </select>
-
-                <label for="needingDept">Needing Department:</label>
-                <select id="needingDept">
-                    <option value="unknown">Unknown</option>
-                    <option value="mechanical">Mechanical</option>
-                    <option value="electrical">Electrical</option>
-                    <option value="operation">Operation</option>
-                    <option value="other">Other</option>
-                </select>
-
-                <label for="manufacturerPart">Manufacturer Part Number:</label>
-                <input type="text" id="manufacturerPart">
-
-                <label for="serialNumber">Serial Number:</label>
-                <input type="text" id="serialNumber">
-
-                <label for="equivalentItem">Equivalent Item (Codes):</label>
-                <input type="text" id="equivalentItem">
-
-                <input type="hidden" id="userID" value="{{userID}}">
-                <button type="submit">Submit</button>
-            </form>
-        </section>
-    </main>
+    <!-- Needing Department Dropdown -->
+    <label for="needingDept">Needing Department:</label>
+    <select id="needingDept">
+        <option value="unknown" selected>Unknown</option>
+        <option value="mechanical">Mechanical</option>
+        <option value="electrical">Electrical</option>
+        <option value="operation">Operation</option>
+        <option value="other">Other</option>
+    </select>
 
     <script src="script.js"></script>
 </body>
