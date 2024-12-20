@@ -33,19 +33,16 @@ async function searchItem() {
                 const imgPath = `./images/${itemCode}/image${i}.jpg`;
                 const img = new Image();
                 img.src = imgPath;
-                img.onload = () => images.push(imgPath);
+                img.onload = () => {
+                    images.push(imgPath);
+                    if (images.length === 1) {
+                        updateImage(); // Update image immediately if it's the first one
+                    }
+                };
                 img.onerror = () => console.log(`Image ${imgPath} not found.`);
             }
 
-            // Wait for all images to load or error out
-            setTimeout(() => {
-                if (images.length > 0) {
-                    updateImage();
-                    itemDetails.classList.remove("hidden");
-                } else {
-                    alert("No images found for this item.");
-                }
-            }, 1000); // Adjust timeout as needed
+            itemDetails.classList.remove("hidden");
         } else {
             alert("Item not found!");
         }
